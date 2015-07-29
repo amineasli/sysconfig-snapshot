@@ -30,7 +30,6 @@ usage()
 {  
    echo "Usage: $PROGRAM [--output file] [--verbose] [--help] [--version]"
          
-
 }
 
 usage_and_exit() 
@@ -60,8 +59,18 @@ get_cpu_info()
 
 get_real_mem() 
 { 
-   free -h | grep Mem | awk '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,
-                               $3, $4)}' 
+   free -h | 
+      grep Mem |
+         awk 
+            '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,$3, $4)}' 
+}
+
+get_swap() 
+{ 
+   free -h | 
+      grep Swap |
+         awk 
+            '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,$3, $4)}' 
 }
 
 get_bios_hw_info() 
