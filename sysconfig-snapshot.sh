@@ -7,95 +7,154 @@
 # in the file defined in $SYSCONFIGFILE variable.
 #
 # Usage :
+#       sysconfig-snapshot.sh [--output file] [--verbose] [--help] [--version] 
+#                                       
 
-#       sysconfig-snapshot.sh [--output file] [--verbose] [--quiet] [--help] \
-#                             [--version]
-                                
+#Variables definition
 
+PROGRAM=$(basename $0) 
+VERSION=0.1 
+VERBOSE=false
+CURRENTHOST=$(hostname) 
+DATETIME=$(date +%m%d%y_%H%M%S) 
+SYSCONFIGFILE=snapshot.$CURRENTHOST.$DATETIME
 
-PROGRAM=$(basename $0)
-VERSION=0.1
-CURRENTHOST=$(hostname)
-DATETIME=$(date +%m%d%y_%H%M%S)
-SYSCONFIGFILE=sysconfig-snapshot.$CURRENTHOST.$DATETIME
+#Functions definition 
 
-error()
+error() 
 {
-   echo "$@" 1>&2
-   usage_and_exit 1
+   echo "$@" 1>&2 usage_and_exit 1 
 }
 
-usage()
-{
-   echo "Usage: $PROGRAM [--output file] [--verbose] [--quiet] [--help] \
-         [--version]"
+usage() 
+{  
+   echo "Usage: $PROGRAM [--output file] [--verbose] [--help] [--version]"
+         
 
 }
 
-usage_and_exit()
-{
-   usage
-   exit $1
+usage_and_exit() 
+{ 
+   usage exit $1 
 }
 
-version()
-{
-   echo "$PROGRAM version $VERSION"
+version() 
+{ 
+   echo "$PROGRAM version $VERSION" 
 }
 
-get_os()
-{
-   uname -mrs
+get_os() 
+{ 
+   uname -mrs 
 }
 
-get_timezone()
-{
-   date +'%z %Z'
+get_timezone() 
+{ 
+   date +'%z %Z' 
 }
 
-get_cpu_info()
-{
-   lspci
+get_cpu_info() 
+{ 
+   lscpu 
 }
 
-get_real_mem()
-{
-   free -h | grep Mem | awk '{ printf("Total : %s\nUsed : %s\nFree : %s\n"\
-, $2, $3, $4)}'
+get_real_mem() 
+{ 
+   free -h | grep Mem | awk '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,
+                               $3, $4)}' 
 }
 
-get_sys_hw_info()
-{
-   dmidecode -q
+get_bios_hw_info() 
+{ 
+   dmidecode -q 
 }
 
-get_pci_list()
-{
-   lspci -m
+get_pci_list() 
+{ 
+   lspci -m 
 }
 
- 
+get_long_dev_list()
+{
+   ls -l /dev
+}
+
+get_block_dev_list()
+{
+   lsblk -i
+}
+
+get_partition_table()
+{
+   fdisk -l
+}
+
+get_fs_stats()
+{
+   df -k 
+   echo '\n'
+   mount
+}
+
+get_list_ifaces()
+{
+   ifconfig -n
+}
+
+get_route_table()
+{
+   route -n
+}
+
+#Report generator function
+
+generate_report()
+{
+   echo
+}
+
+#Command-line argument parser
+
 while test $# -gt 0 
 do 
-   case $1 in
+   case $1 in 
    --output | -o )
-     SYSCONFIGFILE=$1
-     ;;
-   --help | -h )
-      usage_and_exit 0
+      shift
+      SYSCONFIGFILE=$1 
       ;;
-   --version | -v )
-      version
-      exit 0
+   --verbose | -V )
+      shift
+      VERBOSE=true 
       ;;
+   --help | -h ) 
+      shift
+      usage_and_exit 0 
+      ;;
+   --version | -v ) 
+      shift
+      version exit 0 
+      ;; 
    -*) 
-      error "Unrecognized option: $1"
+      error "Unrecognized option: $1" 
+      ;; 
+   *) 
+      break 
       ;;
-   *)
-      break
-      ;;
-   esac
-   shift
+   esac 
+   shift 
 done
 
+#Main section
 
+if [ $(uname -s) != 'Linux' ]
+then 
+   echo -e "\n Error : This shell script is written exculsively for Linux OS.\n"
+   exit 1
+fi
+
+if [ "$VERBOSE" = true ] 
+then
+   generate_report | tee -a $SYSCONFIGFILE  
+else
+   generate_report > $SYSCONFIGFILE 2> /dev/null 
+fi
