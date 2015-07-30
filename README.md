@@ -15,7 +15,7 @@ One line install (you must run this command as root) :
     # sysconfig-snapshot.sh [--output file] [--verbose] [--help] [--version]
 
 ## Examples
-Take a snapshot of the system. The file is located in the home directory : 
+Take a snapshot of the system. The file will be located in the home directory : 
 
     # sysconfig-snapshot.sh
 
@@ -23,7 +23,7 @@ Same result but in verbose mode :
 
     # sysconfig-snapshot.sh --verbose
 
-You can also save the snapshot in a different file :
+You can also save the snapshot in a different file path :
 
     # sysconfig-snapshot.sh --output myreport
 
