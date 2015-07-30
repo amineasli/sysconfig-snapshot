@@ -9,7 +9,6 @@
 # Usage :
 #       sysconfig-snapshot.sh [--output file] [--verbose] [--help] [--version] 
 #                                       
-
 #Variables definition
 
 PROGRAM=$(basename $0) 
@@ -184,16 +183,14 @@ do
       SYSCONFIGFILE=$1 
       ;;
    --verbose | -v )
-      shift
       VERBOSE=true 
       ;;
    --help | -h ) 
-      shift
       usage_and_exit 0 
       ;;
    --version | -V ) 
-      shift
-      version exit 0 
+      version 
+      exit 0 
       ;; 
    -*) 
       error "Unrecognized option: $1" 
@@ -202,7 +199,7 @@ do
       break 
       ;;
    esac 
-   shift 
+   shift
 done
 
 #Main section
