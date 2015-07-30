@@ -221,4 +221,5 @@ fi
 if [ -e $SYSCONFIGFILE ]
 then
    echo -e "\n This report is successfully saved in :\n\"$SYSCONFIGFILE\""
+   exit 0
 fi
