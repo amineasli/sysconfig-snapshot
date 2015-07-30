@@ -221,5 +221,5 @@ fi
 if [ -e $SYSCONFIGFILE ]
 then
    echo -e "\n A snapshot of your system configuration has been successfully \
-saved in : \"$SYSCONFIGFILE\"" 
+saved in :\n\"$SYSCONFIGFILE\"" 
 fi
