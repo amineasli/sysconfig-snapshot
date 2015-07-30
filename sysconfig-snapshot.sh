@@ -23,7 +23,8 @@ SYSCONFIGFILE=snapshot.$CURRENTHOST.$DATETIME
 
 error() 
 {
-   echo "$@" 1>&2 usage_and_exit 1 
+   echo "$@" 1>&2 
+   usage_and_exit 1 
 }
 
 usage() 
@@ -34,7 +35,8 @@ usage()
 
 usage_and_exit() 
 { 
-   usage exit $1 
+   usage 
+   exit $1 
 }
 
 version() 
@@ -59,6 +61,7 @@ get_arch()
 {
    uname -m
 }
+
 get_timezone() 
 { 
    date +'%z %Z' 
@@ -73,7 +76,7 @@ get_real_mem()
 { 
    free -h | 
       grep Mem |
-         awk 
+         awk \
             '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,$3, $4)}' 
 }
 
@@ -81,18 +84,18 @@ get_swap()
 { 
    free -h | 
       grep Swap |
-         awk 
+         awk \
             '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,$3, $4)}' 
 }
 
-get_bios_hw_info() 
+get_dmi_table() 
 { 
    dmidecode -q 
 }
 
 get_pci_list() 
 { 
-   lspci -m 
+   lspci -v 
 }
 
 get_long_dev_list()
@@ -117,9 +120,9 @@ get_fs_stats()
    mount
 }
 
-get_list_ifaces()
+get_ifaces_list()
 {
-   ifconfig -n
+   ifconfig -s
 }
 
 get_route_table()
@@ -136,16 +139,39 @@ get_ps_list()
 
 generate_report()
 {
-   echo -e "\n\n $PROGRAM ($VERSION) - $DATETIME \n\n"
-   echo -e "System-configuration snapshot for $CURRENTHOST\n"
+   echo -e "\n\n $PROGRAM ($VERSION) - $(date) \n\n"
    echo -e "\n###############################################################\n"
-   echo    "GENERAL INFO:"
+   echo -e "\tGENERAL:"
    echo -e "\n###############################################################\n"
-   echo -e "Hostname:\t\t$CURRENTHOST"
-   echo -e "Time Zone:\t\t$(get_timezone)"
-   echo -e "Machine Architecture:\t$(get_arch)"
-   echo -e "Operating System:\t$(get_os)"
-   echo -e "Distribution:\t\t$(get_distro)"
+   echo -e "#Hostname:\t\t$CURRENTHOST"
+   echo -e "#Time Zone:\t\t$(get_timezone)"
+   echo -e "#Machine Architecture:\t$(get_arch)"
+   echo -e "#Operating System:\t$(get_os)"
+   echo -e "#Distribution:\t\t$(get_distro)"
+   echo -e "\n###############################################################\n"
+   echo -e "\tHARDWARE:"
+   echo -e "\n###############################################################\n"
+   echo -e "#CPU:\n\n$(get_cpu_info)\n" 
+   echo -e "#Physical Memory:\n\n$(get_real_mem)\n" 
+   echo -e "#Swap Memory:\n\n$(get_swap)\n" 
+   echo -e "#DMI table:\n\n$(get_dmi_table)\n" 
+   echo -e "#PCI devices list:\n\n$(get_pci_list)\n" 
+   echo -e "#Device directory list - /dev:\n\n$(get_long_dev_list)\n" 
+   echo -e "\n###############################################################\n"
+   echo -e "\tFILE SYSTEM:"
+   echo -e "\n###############################################################\n"
+   echo -e "#Block devices list:\n\n$(get_block_dev_list)\n" 
+   echo -e "#Partition table:\n$(get_partition_table)\n" 
+   echo -e "#File system stats:\n\n$(get_fs_stats)\n" 
+   echo -e "\n###############################################################\n"
+   echo -e "\tNETWORKING:"
+   echo -e "\n###############################################################\n"
+   echo -e "#Interfaces list:\n\n$(get_ifaces_list)\n" 
+   echo -e "#IP routing table:\n\n$(get_route_table)\n" 
+   echo -e "\n###############################################################\n"
+   echo -e "\tPROCESS:"
+   echo -e "\n###############################################################\n"
+   echo -e "#Process list:\n\n$(get_ps_list)\n" 
 }
 
 #Command-line argument parser
@@ -187,7 +213,7 @@ then
    exit 1
 fi
 
-if [ "$VERBOSE" = true ] 
+if [ $VERBOSE = true ] 
 then
    generate_report | tee -a $SYSCONFIGFILE  
 else
