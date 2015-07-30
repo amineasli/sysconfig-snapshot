@@ -44,9 +44,21 @@ version()
 
 get_os() 
 { 
-   uname -mrs 
+   uname -rs 
 }
 
+get_distro()
+{
+   cat /etc/*-release | 
+     grep PRETTY |
+        cut -d = -f 2 |
+           tr -d '"'
+}
+
+get_arch()
+{
+   uname -m
+}
 get_timezone() 
 { 
    date +'%z %Z' 
@@ -101,7 +113,7 @@ get_partition_table()
 get_fs_stats()
 {
    df -k 
-   echo '\n'
+   echo -e "\n"
    mount
 }
 
@@ -129,9 +141,11 @@ generate_report()
    echo -e "\n###############################################################\n"
    echo    "GENERAL INFO:"
    echo -e "\n###############################################################\n"
-   echo -e "Hostname:\t$CURRENTHOST"
-   echo -e "Time Zone:\t$(get_timezone)"
+   echo -e "Hostname:\t\t$CURRENTHOST"
+   echo -e "Time Zone:\t\t$(get_timezone)"
+   echo -e "Machine Architecture:\t$(get_arch)"
    echo -e "Operating System:\t$(get_os)"
+   echo -e "Distribution:\t\t$(get_distro)"
 }
 
 #Command-line argument parser
