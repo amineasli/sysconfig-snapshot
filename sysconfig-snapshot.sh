@@ -1,4 +1,4 @@
-#!/bin/bash - 
+#!/bin/sh - 
 #
 # Platform : Linux
 #
@@ -220,6 +220,5 @@ fi
 
 if [ -e $SYSCONFIGFILE ]
 then
-   echo -e "\n A snapshot of your system configuration has been successfully \
-saved in :\n\"$SYSCONFIGFILE\"" 
+   echo -e "\n This report is successfully saved in :\n\"$SYSCONFIGFILE\""
 fi
