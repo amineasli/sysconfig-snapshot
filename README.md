@@ -23,7 +23,7 @@ Same result but in verbose mode :
 
     # sysconfig-snapshot.sh --verbose
 
-You can also save the snapshot in a different file path :
+You can also save the snapshot in a different file :
 
     # sysconfig-snapshot.sh --output myreport
 
