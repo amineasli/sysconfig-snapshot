@@ -9,6 +9,7 @@
 # Usage :
 #       sysconfig-snapshot.sh [--output file] [--verbose] [--help] [--version] 
 #                                       
+
 #Variables definition
 
 PROGRAM=$(basename $0) 
@@ -16,7 +17,7 @@ VERSION=0.1
 VERBOSE=false
 CURRENTHOST=$(hostname) 
 DATETIME=$(date +%m%d%y_%H%M%S) 
-SYSCONFIGFILE=snapshot.$CURRENTHOST.$DATETIME
+SYSCONFIGFILE=$HOME/snapshot.$CURRENTHOST.$DATETIME
 
 #Functions definition 
 
@@ -168,7 +169,7 @@ generate_report()
    echo -e "#Interfaces list:\n\n$(get_ifaces_list)\n" 
    echo -e "#IP routing table:\n\n$(get_route_table)\n" 
    echo -e "\n###############################################################\n"
-   echo -e "\tPROCESS:"
+   echo -e "\tPROCESSES:"
    echo -e "\n###############################################################\n"
    echo -e "#Process list:\n\n$(get_ps_list)\n" 
 }
@@ -215,4 +216,10 @@ then
    generate_report | tee -a $SYSCONFIGFILE  
 else
    generate_report > $SYSCONFIGFILE 2> /dev/null 
+fi
+
+if [ -e $SYSCONFIGFILE ]
+then
+   echo -e "\n A snapshot of your system configuration has been successfully \
+saved in : \"$SYSCONFIGFILE\"" 
 fi
