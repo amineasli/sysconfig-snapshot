@@ -115,11 +115,23 @@ get_route_table()
    route -n
 }
 
+get_ps_list()
+{
+   ps aux
+}
+
 #Report generator function
 
 generate_report()
 {
-   echo
+   echo -e "\n\n $PROGRAM ($VERSION) - $DATETIME \n\n"
+   echo -e "System-configuration snapshot for $CURRENTHOST\n"
+   echo -e "\n###############################################################\n"
+   echo    "GENERAL INFO:"
+   echo -e "\n###############################################################\n"
+   echo -e "Hostname:\t$CURRENTHOST"
+   echo -e "Time Zone:\t$(get_timezone)"
+   echo -e "Operating System:\t$(get_os)"
 }
 
 #Command-line argument parser
@@ -131,7 +143,7 @@ do
       shift
       SYSCONFIGFILE=$1 
       ;;
-   --verbose | -V )
+   --verbose | -v )
       shift
       VERBOSE=true 
       ;;
@@ -139,7 +151,7 @@ do
       shift
       usage_and_exit 0 
       ;;
-   --version | -v ) 
+   --version | -V ) 
       shift
       version exit 0 
       ;; 
