@@ -116,7 +116,7 @@ get_partition_table()
 get_fs_stats()
 {
    df -k 
-   echo -e "\n"
+   echo "\n"
    mount
 }
 
@@ -139,39 +139,39 @@ get_ps_list()
 
 generate_report()
 {
-   echo -e "\n\n $PROGRAM ($VERSION) - $(date) \n\n"
-   echo -e "\n###############################################################\n"
-   echo -e "\tGENERAL:"
-   echo -e "\n###############################################################\n"
-   echo -e "#Hostname:\t\t$CURRENTHOST"
-   echo -e "#Time Zone:\t\t$(get_timezone)"
-   echo -e "#Machine Architecture:\t$(get_arch)"
-   echo -e "#Operating System:\t$(get_os)"
-   echo -e "#Distribution:\t\t$(get_distro)"
-   echo -e "\n###############################################################\n"
-   echo -e "\tHARDWARE:"
-   echo -e "\n###############################################################\n"
-   echo -e "#CPU:\n\n$(get_cpu_info)\n" 
-   echo -e "#Physical Memory:\n\n$(get_real_mem)\n" 
-   echo -e "#Swap Memory:\n\n$(get_swap)\n" 
-   echo -e "#DMI table:\n\n$(get_dmi_table)\n" 
-   echo -e "#PCI devices list:\n\n$(get_pci_list)\n" 
-   echo -e "#Device directory list - /dev:\n\n$(get_long_dev_list)\n" 
-   echo -e "\n###############################################################\n"
-   echo -e "\tFILE SYSTEM:"
-   echo -e "\n###############################################################\n"
-   echo -e "#Block devices list:\n\n$(get_block_dev_list)\n" 
-   echo -e "#Partition table:\n$(get_partition_table)\n" 
-   echo -e "#File system stats:\n\n$(get_fs_stats)\n" 
-   echo -e "\n###############################################################\n"
-   echo -e "\tNETWORKING:"
-   echo -e "\n###############################################################\n"
-   echo -e "#Interfaces list:\n\n$(get_ifaces_list)\n" 
-   echo -e "#IP routing table:\n\n$(get_route_table)\n" 
-   echo -e "\n###############################################################\n"
-   echo -e "\tPROCESSES:"
-   echo -e "\n###############################################################\n"
-   echo -e "#Process list:\n\n$(get_ps_list)\n" 
+   echo "\n\n $PROGRAM ($VERSION) - $(date) \n\n"
+   echo "\n###############################################################\n"
+   echo "\tGENERAL:"
+   echo "\n###############################################################\n"
+   echo "#Hostname:\t\t$CURRENTHOST"
+   echo "#Time Zone:\t\t$(get_timezone)"
+   echo "#Machine Architecture:\t$(get_arch)"
+   echo "#Operating System:\t$(get_os)"
+   echo "#Distribution:\t\t$(get_distro)"
+   echo "\n###############################################################\n"
+   echo "\tHARDWARE:"
+   echo "\n###############################################################\n"
+   echo  "#CPU:\n\n$(get_cpu_info)\n" 
+   echo "#Physical Memory:\n\n$(get_real_mem)\n" 
+   echo "#Swap Memory:\n\n$(get_swap)\n" 
+   echo "#DMI table:\n\n$(get_dmi_table)\n" 
+   echo "#PCI devices list:\n\n$(get_pci_list)\n" 
+   echo "#Device directory list - /dev:\n\n$(get_long_dev_list)\n" 
+   echo "\n###############################################################\n"
+   echo "\tFILE SYSTEM:"
+   echo "\n###############################################################\n"
+   echo "#Block devices list:\n\n$(get_block_dev_list)\n" 
+   echo "#Partition table:\n$(get_partition_table)\n" 
+   echo "#File system stats:\n\n$(get_fs_stats)\n" 
+   echo "\n###############################################################\n"
+   echo "\tNETWORKING:"
+   echo "\n###############################################################\n"
+   echo "#Interfaces list:\n\n$(get_ifaces_list)\n" 
+   echo "#IP routing table:\n\n$(get_route_table)\n" 
+   echo "\n###############################################################\n"
+   echo "\tPROCESSES:"
+   echo "\n###############################################################\n"
+   echo "#Process list:\n\n$(get_ps_list)\n" 
 }
 
 #Command-line argument parser
@@ -207,7 +207,7 @@ done
 
 if [ $(uname -s) != 'Linux' ]
 then 
-   echo -e "\n Error : This shell script is written exclusively for Linux OS.\n"
+   echo "\n Error : This shell script is written exclusively for Linux OS.\n"
    exit 1
 fi
 
@@ -220,6 +220,6 @@ fi
 
 if [ -e $SYSCONFIGFILE ]
 then
-   echo -e "\n This report is successfully saved in :\n\"$SYSCONFIGFILE\""
+   echo "\n This report is successfully saved in :\n\"$SYSCONFIGFILE\""
    exit 0
 fi
