@@ -1,4 +1,4 @@
-sysconfig-snapshot.sh
+sysconfig-snapshot
 ====================
 
 Performs a series of commands to take a snapshot of the state of your Linux machine. Among things to consider for this system configuration snapshot include : mounted filesystems, running processes, network stats, hardware configurations, to name a few.
