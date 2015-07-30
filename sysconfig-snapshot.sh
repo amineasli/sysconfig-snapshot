@@ -207,7 +207,7 @@ done
 
 if [ $(uname -s) != 'Linux' ]
 then 
-   echo -e "\n Error : This shell script is written exculsively for Linux OS.\n"
+   echo -e "\n Error : This shell script is written exclusively for Linux OS.\n"
    exit 1
 fi
 
