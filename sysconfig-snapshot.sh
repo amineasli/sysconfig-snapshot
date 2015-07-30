@@ -151,7 +151,7 @@ generate_report()
    echo "\n###############################################################\n"
    echo "\tHARDWARE:"
    echo "\n###############################################################\n"
-   echo  "#CPU:\n\n$(get_cpu_info)\n" 
+   echo "#CPU:\n\n$(get_cpu_info)\n" 
    echo "#Physical Memory:\n\n$(get_real_mem)\n" 
    echo "#Swap Memory:\n\n$(get_swap)\n" 
    echo "#DMI table:\n\n$(get_dmi_table)\n" 
@@ -220,6 +220,6 @@ fi
 
 if [ -e $SYSCONFIGFILE ]
 then
-   echo "\n This report is successfully saved in :\n\"$SYSCONFIGFILE\""
+   echo "\nThis report is successfully saved in : $SYSCONFIGFILE\n"
    exit 0
 fi
