@@ -1,10 +1,12 @@
 #!/bin/sh - 
 #
-# Platform : Linux
-#
 # Purpose : Capture the state of the system configuration for later
 # troubleshooting in the event of system problems. The given data will be stored
 # in the file defined in $SYSCONFIGFILE variable.
+#
+# Platform : Linux
+#
+# Author : Amine Asli <asli.amine@gmail.com>
 #
 # Usage :
 #       sysconfig-snapshot [--output file] [--verbose] [--help] [--version] 
