@@ -7,25 +7,25 @@ With such information captured you have a better chance of fixing system problem
 ## Install
 One line install (you must run this command as root) :
 
-    # curl https://raw.githubusercontent.com/AmineAsli/sysconfig-snapshot/master/sysconfig-snapshot.sh -o \
-    /usr/local/sbin/sysconfig-snapshot.sh && chmod +x /usr/local/sbin/sysconfig-snapshot.sh
+    # curl https://raw.githubusercontent.com/AmineAsli/sysconfig-snapshot/master/sysconfig-snapshot -o \
+    /usr/local/sbin/sysconfig-snapshot && chmod +x /usr/local/sbin/sysconfig-snapshot
 
 ## Usage
 
-    # sysconfig-snapshot.sh [--output file] [--verbose] [--help] [--version]
+    # sysconfig-snapshot [--output file] [--verbose] [--help] [--version]
 
 ## Examples
 Take a snapshot of the system. The file will be located in the home directory : 
 
-    # sysconfig-snapshot.sh
+    # sysconfig-snapshot
 
 Same result but in verbose mode :
 
-    # sysconfig-snapshot.sh --verbose
+    # sysconfig-snapshot --verbose
 
 You can also save the snapshot in a different file :
 
-    # sysconfig-snapshot.sh --output myreport
+    # sysconfig-snapshot --output myreport
 
 ## License
 GNU GPL v2.0, see LICENSE.
