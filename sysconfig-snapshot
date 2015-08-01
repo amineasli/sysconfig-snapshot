@@ -7,7 +7,7 @@
 # in the file defined in $SYSCONFIGFILE variable.
 #
 # Usage :
-#       sysconfig-snapshot.sh [--output file] [--verbose] [--help] [--version] 
+#       sysconfig-snapshot [--output file] [--verbose] [--help] [--version] 
 #                                       
 
 #Variables definition
@@ -183,13 +183,13 @@ do
       shift
       SYSCONFIGFILE=$1 
       ;;
-   --verbose | -v )
+   --verbose | -V )
       VERBOSE=true 
       ;;
    --help | -h ) 
       usage_and_exit 0 
       ;;
-   --version | -V ) 
+   --version | -v ) 
       version 
       exit 0 
       ;; 
