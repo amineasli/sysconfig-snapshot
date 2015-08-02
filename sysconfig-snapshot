@@ -9,18 +9,19 @@
 # Author : Amine Asli <asli.amine@gmail.com>
 #
 # Usage :
-#       sysconfig-snapshot [--output file] [--verbose] [--help] [--version] 
+#       sysconfig-snapshot [--output file] [--compress] [--help] [--version] 
 #                                       
 
 #Variables definition
 
 PROGRAM=$(basename "$0")
 VERSION=0.1 
-VERBOSE=false
+COMPRESS=false
 CURRENTHOST=$(hostname) 
 DATETIME=$(date +%m%d%y_%H%M%S) 
 TARGETDIR="/var/log/sysconfig-snapshot"
-SYSCONFIGFILE="$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME.gz"
+EXT="gz"
+SYSCONFIGFILE="$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME"
 
 #Functions definition 
 
@@ -32,7 +33,7 @@ error()
 
 usage() 
 {  
-   echo -e "Usage: $PROGRAM [--output file] [--verbose] [--help] [--version]"
+   echo -e "Usage: $PROGRAM [--output file] [--compress] [--help] [--version]"
          
 }
 
@@ -186,8 +187,8 @@ do
       shift
       SYSCONFIGFILE=$1 
       ;;
-   --verbose | -V )
-      VERBOSE=true 
+   --compress | -c )
+      COMPRESS=true 
       ;;
    --help | -h ) 
       usage_and_exit 0 
@@ -210,11 +211,11 @@ done
 
 if [ "$(uname -s)" != 'Linux' ]
 then 
-   echo -e "\n Error : This shell script is written exclusively for Linux OS.\n"
+   echo -e "\nError : This shell script is written exclusively for Linux OS.\n"
    exit 1
 fi
 
-if [ ! -d $TARGETDIR ]
+if [ ! -d "$TARGETDIR" ]
 then
    mkdir -p $TARGETDIR > /dev/null 2>&1
    if [  $? != 0 ]
@@ -224,11 +225,12 @@ then
    fi
 fi
    
-if [ $VERBOSE = true ] 
+if [ $COMPRESS = true ] 
 then
-   generate_report | tee >(gzip > "$SYSCONFIGFILE")
+      SYSCONFIGFILE=$SYSCONFIGFILE.$EXT
+      generate_report | gzip > "$SYSCONFIGFILE"  
 else
-   generate_report | gzip > "$SYSCONFIGFILE"
+      generate_report > "$SYSCONFIGFILE"
 fi
 
 if [ -e "$SYSCONFIGFILE" ]
