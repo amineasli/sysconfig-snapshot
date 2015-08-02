@@ -14,13 +14,13 @@
 
 #Variables definition
 
-PROGRAM="$(basename $0)"
+PROGRAM=$(basename "$0")
 VERSION=0.1 
 VERBOSE=false
 CURRENTHOST=$(hostname) 
 DATETIME=$(date +%m%d%y_%H%M%S) 
 TARGETDIR="/var/log/sysconfig-snapshot"
-SYSCONFIGFILE="$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME.gzi"
+SYSCONFIGFILE="$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME.gz"
 
 #Functions definition 
 
