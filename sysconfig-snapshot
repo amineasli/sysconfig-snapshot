@@ -208,7 +208,7 @@ done
 
 #Main section
 
-if [ $(uname -s) != 'Linux' ]
+if [ "$(uname -s)" != 'Linux' ]
 then 
    echo "\n Error : This shell script is written exclusively for Linux OS.\n"
    exit 1
@@ -231,7 +231,7 @@ else
    generate_report > $SYSCONFIGFILE 2> /dev/null 
 fi
 
-if [ -e $SYSCONFIGFILE ]
+if [ -e "$SYSCONFIGFILE" ]
 then
    echo "\nThis report is successfully saved in : $SYSCONFIGFILE\n"
    exit 0
