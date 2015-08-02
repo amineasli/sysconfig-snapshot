@@ -19,7 +19,8 @@ VERSION=0.1
 VERBOSE=false
 CURRENTHOST=$(hostname) 
 DATETIME=$(date +%m%d%y_%H%M%S) 
-SYSCONFIGFILE=$HOME/snapshot.$CURRENTHOST.$DATETIME
+TARGETDIR=/var/log/sysconfig-snapshot
+SYSCONFIGFILE=$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME
 
 #Functions definition 
 
@@ -79,7 +80,7 @@ get_real_mem()
    free -h | 
       grep Mem |
          awk \
-            '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,$3, $4)}' 
+            '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2, $3, $4) }' 
 }
 
 get_swap() 
@@ -87,7 +88,7 @@ get_swap()
    free -h | 
       grep Swap |
          awk \
-            '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2,$3, $4)}' 
+            '{ printf("Total : %s\nUsed : %s\nFree: %s\n", $2, $3, $4) }' 
 }
 
 get_dmi_table() 
@@ -213,6 +214,16 @@ then
    exit 1
 fi
 
+if [ ! -d $TARGETDIR ]
+then
+   mkdir -p $TARGETDIR > /dev/null 2>&1
+   if [  $? != 0 ]
+   then 
+      echo "\n Error : Permission denied, cannot create $TARGETDIR directory.\n"
+      exit 2
+   fi
+fi
+   
 if [ $VERBOSE = true ] 
 then
    generate_report | tee -a $SYSCONFIGFILE  
