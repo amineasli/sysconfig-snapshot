@@ -25,27 +25,15 @@ SYSCONFIGFILE="$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME"
 
 #Functions definition 
 
-error() 
-{
-   echo -e "$@" 1>&2 
-   usage_and_exit 1 
-}
-
 usage() 
 {  
-   echo -e "Usage: $PROGRAM [--output file] [--compress] [--help] [--version]"
+   echo "Usage: $PROGRAM [--output file] [--compress] [--help] [--version]"
          
-}
-
-usage_and_exit() 
-{ 
-   usage 
-   exit "$1"
 }
 
 version() 
 { 
-   echo -e "$PROGRAM version $VERSION" 
+   echo "$PROGRAM version $VERSION" 
 }
 
 get_os() 
@@ -178,6 +166,29 @@ generate_report()
    echo -e "#Process list:\n\n$(get_ps_list)\n" 
 }
 
+#Main section
+
+if [ "$(uname -s)" != 'Linux' ]
+then 
+   echo "This shell script is written exclusively for Linux OS."
+fi
+
+if [  "$UID" != 0 ]
+then
+   echo "This shell script must be run as root."
+   exit 2
+fi
+
+if [ ! -d "$TARGETDIR" ]
+then
+   mkdir -p $TARGETDIR > /dev/null 2>&1
+   if [  $? != 0 ]
+   then 
+      echo "Permission denied, cannot create $TARGETDIR directory."
+      exit 2
+   fi
+fi
+
 #Command-line argument parser
 
 while test $# -gt 0 
@@ -185,20 +196,28 @@ do
    case $1 in 
    --output | -o )
       shift
-      SYSCONFIGFILE=$1 
+      if [ -z $1 ]
+      then
+         echo "Missing output file argument" 
+	 exit 1
+      else
+         SYSCONFIGFILE=$1   
+      fi
       ;;
    --compress | -c )
       COMPRESS=true 
       ;;
    --help | -h ) 
-      usage_and_exit 0 
+      usage
+      exit 0 
       ;;
    --version | -v ) 
       version 
       exit 0 
       ;; 
    -*) 
-      error "Unrecognized option: $1" 
+      echo "Unrecognized option: $1"
+      exit 1
       ;; 
    *) 
       break 
@@ -207,27 +226,12 @@ do
    shift
 done
 
-#Main section
-
-if [ "$(uname -s)" != 'Linux' ]
-then 
-   echo -e "\nError : This shell script is written exclusively for Linux OS.\n"
-   exit 1
-fi
-
-if [ ! -d "$TARGETDIR" ]
-then
-   mkdir -p $TARGETDIR > /dev/null 2>&1
-   if [  $? != 0 ]
-   then 
-      echo -e "\nError : Permission denied, cannot create $TARGETDIR directory.\n"
-      exit 2
-   fi
-fi
-   
 if [ $COMPRESS = true ] 
 then
-      SYSCONFIGFILE=$SYSCONFIGFILE.$EXT
+      if [ ${SYSCONFIGFILE##*.} != $EXT ]
+      then
+         SYSCONFIGFILE=$SYSCONFIGFILE.$EXT
+      fi
       generate_report | gzip > "$SYSCONFIGFILE"  
 else
       generate_report > "$SYSCONFIGFILE"
@@ -235,6 +239,6 @@ fi
 
 if [ -e "$SYSCONFIGFILE" ]
 then
-   echo -e "\nThis report is successfully saved in : $SYSCONFIGFILE\n"
+   echo "This report is successfully saved in : $SYSCONFIGFILE"
    exit 0
 fi
