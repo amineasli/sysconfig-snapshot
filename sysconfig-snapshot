@@ -14,7 +14,7 @@
 
 #Variables definition
 
-PROGRAM=$(basename $0) 
+PROGRAM=$(basename "$0") 
 VERSION=0.1 
 VERBOSE=false
 CURRENTHOST=$(hostname) 
@@ -39,7 +39,7 @@ usage()
 usage_and_exit() 
 { 
    usage 
-   exit $1 
+   exit "$1"
 }
 
 version() 
@@ -142,7 +142,7 @@ get_ps_list()
 
 generate_report()
 {
-   echo -e "\n\n $PROGRAM ($VERSION) - $(date) \n\n"
+   echo -e "\n $PROGRAM ($VERSION) - $(date) \n"
    echo -e "\n###############################################################\n"
    echo -e "\tGENERAL:"
    echo -e "\n###############################################################\n"
@@ -219,19 +219,19 @@ then
    mkdir -p $TARGETDIR > /dev/null 2>&1
    if [  $? != 0 ]
    then 
-      echo -e "\n Error : Permission denied, cannot create $TARGETDIR directory.\n"
+      echo -e "\nError : Permission denied, cannot create $TARGETDIR directory.\n"
       exit 2
    fi
 fi
    
 if [ $VERBOSE = true ] 
 then
-   generate_report | tee >(gzip > $SYSCONFIGFILE)
+   generate_report | tee >(gzip > "$SYSCONFIGFILE)"
 else
-   generate_report | gzip > $SYSCONFIGFILE 
+   generate_report | gzip > "$SYSCONFIGFILE"
 fi
 
-if [ -e $SYSCONFIGFILE ]
+if [ -e "$SYSCONFIGFILE" ]
 then
    echo -e "\nThis report is successfully saved in : $SYSCONFIGFILE\n"
    exit 0
