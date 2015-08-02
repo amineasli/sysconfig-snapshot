@@ -196,7 +196,7 @@ do
    case $1 in 
    --output | -o )
       shift
-      if [ -z $1 ]
+      if [ -z "$1" ]
       then
          echo "Missing output file argument" 
 	 exit 1
@@ -228,7 +228,8 @@ done
 
 if [ $COMPRESS = true ] 
 then
-      if [ ${SYSCONFIGFILE##*.} != $EXT ]
+      #Avoid duplicating gz extensions
+      if [ "${SYSCONFIGFILE##*.}" != $EXT ]
       then
          SYSCONFIGFILE=$SYSCONFIGFILE.$EXT
       fi
