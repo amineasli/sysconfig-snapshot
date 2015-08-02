@@ -15,7 +15,7 @@ One line install (you must run this command as root) :
     # sysconfig-snapshot [--output file] [--verbose] [--help] [--version]
 
 ## Examples
-Take a snapshot of the system. The file will be located in the home directory : 
+Take a snapshot of the system. The resulting file will be located in the /var/log/sysconfig-snapshot/ directory : 
 
     # sysconfig-snapshot
 
