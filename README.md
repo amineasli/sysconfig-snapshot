@@ -12,20 +12,24 @@ One line install (you must run this command as root) :
 
 ## Usage
 
-    # sysconfig-snapshot [--output file] [--verbose] [--help] [--version]
+    # sysconfig-snapshot [--output file] [--compress] [--help] [--version]
 
 ## Examples
-Take a snapshot of the system. The resulting file will be located in the /var/log/sysconfig-snapshot/ directory : 
+Take a snapshot of the system. The resulting text file will be located in the /var/log/sysconfig-snapshot directory : 
 
     # sysconfig-snapshot
 
-Same result but in verbose mode :
+Compressing the default snapshot file :
 
-    # sysconfig-snapshot --verbose
+    # sysconfig-snapshot --compress
 
-You can also save the snapshot in a different file :
+You can also save the snapshot in a different text file :
 
     # sysconfig-snapshot --output myreport
+
+Same result but in compressed format :
+
+    # sysconfig-snapshot --compress --output myreport
 
 ## License
 GNU GPL v2.0, see LICENSE.
