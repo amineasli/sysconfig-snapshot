@@ -14,7 +14,7 @@
 
 #Variables definition
 
-PROGRAM=$(basename "$0") 
+PROGRAM="$(basename $0)"
 VERSION=0.1 
 VERBOSE=false
 CURRENTHOST=$(hostname) 
@@ -226,7 +226,7 @@ fi
    
 if [ $VERBOSE = true ] 
 then
-   generate_report | tee >(gzip > "$SYSCONFIGFILE)"
+   generate_report | tee >(gzip > "$SYSCONFIGFILE")
 else
    generate_report | gzip > "$SYSCONFIGFILE"
 fi
