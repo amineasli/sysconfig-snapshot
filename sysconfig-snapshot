@@ -19,8 +19,8 @@ VERSION=0.1
 VERBOSE=false
 CURRENTHOST=$(hostname) 
 DATETIME=$(date +%m%d%y_%H%M%S) 
-TARGETDIR=/var/log/sysconfig-snapshot
-SYSCONFIGFILE=$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME.gz
+TARGETDIR="/var/log/sysconfig-snapshot"
+SYSCONFIGFILE="$TARGETDIR/snapshot.$CURRENTHOST.$DATETIME.gzi"
 
 #Functions definition 
 
@@ -214,7 +214,7 @@ then
    exit 1
 fi
 
-if [ ! -d "$TARGETDIR" ]
+if [ ! -d $TARGETDIR ]
 then
    mkdir -p $TARGETDIR > /dev/null 2>&1
    if [  $? != 0 ]
@@ -228,10 +228,10 @@ if [ $VERBOSE = true ]
 then
    generate_report | tee >(gzip > $SYSCONFIGFILE)
 else
-   generate_report | gzip > $SYSCONFIGFILE 2> /dev/null 
+   generate_report | gzip > $SYSCONFIGFILE 
 fi
 
-if [ -e "$SYSCONFIGFILE" ]
+if [ -e $SYSCONFIGFILE ]
 then
    echo -e "\nThis report is successfully saved in : $SYSCONFIGFILE\n"
    exit 0
