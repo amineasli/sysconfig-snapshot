@@ -15,7 +15,7 @@
 #Variables definition
 
 PROGRAM=$(basename "$0")
-VERSION=0.1 
+VERSION=0.2 
 COMPRESS=false
 CURRENTHOST=$(hostname) 
 DATETIME=$(date +%m%d%y_%H%M%S) 
