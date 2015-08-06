@@ -107,7 +107,7 @@ get_partition_table()
 
 get_fs_stats()
 {
-   df -k 
+   df -h 
    echo -e "\n"
    mount
 }
