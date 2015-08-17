@@ -171,6 +171,7 @@ generate_report()
 if [ "$(uname -s)" != 'Linux' ]
 then 
    echo "This shell script is written exclusively for Linux OS."
+   exit 1
 fi
 
 if [  "$UID" != 0 ]
