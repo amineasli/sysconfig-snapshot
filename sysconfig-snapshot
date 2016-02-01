@@ -179,7 +179,7 @@ then
    exit 2
 fi
 
-if ! [ -d "$TARGETDIR" ]
+if [ ! -d "$TARGETDIR" ]
 then
    mkdir -p $TARGETDIR > /dev/null 2>&1
    if [  $? != 0 ]
@@ -228,7 +228,7 @@ done
 
 if [ $COMPRESS = true ] 
 then
-      #Avoid duplicating gz extensions
+      #Avoid duplicating $EXT extension
       if [ "${SYSCONFIGFILE##*.}" != $EXT ]
       then
          SYSCONFIGFILE=$SYSCONFIGFILE.$EXT
